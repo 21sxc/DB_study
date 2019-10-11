@@ -4,63 +4,68 @@ const connection = mysql.createConnection({
     user     : 'root',
     password : '123',
     database : 'db_study'
-});
+})
 
-connection.connect();
+connection.connect()
 
 /**
  * get user info
  * @param {Number} uid 
  */
 function getUser(uid, callback) {
-    const sql = 'SELECT * FROM user WHERE uid = ?';
-    const params = [uid]
-    connection.query(sql, params, function (err, result) {
-        if (err) {
-            callback(err)
-        } else {
-            callback(null, result[0])
-        }
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM user WHERE uid = ?';
+        const params = [uid]
+        connection.query(sql, params, function (err, result) {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(result[0])
+            }
+        })
     })
 }
 
 function updateUser(uid, params, callback) {
-    let sql = 'UPDATE user SET ';
-    let data = []
-    let isFirst = true
-    for (const key in params) {
-        if (isFirst) {
-            sql += ` ${key} = ? `
-            isFirst = false
-        } else {
-            sql += `, ${key} = ?`
+    return new Promise((resolve, reject) => {
+        let sql = 'UPDATE user SET ';
+        let data = []
+        let isFirst = true
+        for (const key in params) {
+            if (isFirst) {
+                sql += ` ${key} = ? `
+                isFirst = false
+            } else {
+                sql += `, ${key} = ?`
+            }
+            data.push(params[key])
         }
-        data.push(params[key])
-    }
-    sql += ` WHERE uid = ? `
-    console.log(sql)
-    data.push(uid)
-    connection.query(sql, data, function (err, result) {
-        if (err) {
-            callback(err)
-        } else {
-            callback(null, result.affectedRows === 1)
-        }
+        sql += ` WHERE uid = ? `
+        console.log(sql)
+        data.push(uid)
+        connection.query(sql, data, function (err, result) {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(result.affectedRows === 1)
+            }
+        })
     })
 }
 
-// var modSql = 'UPDATE user SET birthday = ? WHERE uid = ?';
-// var modSqlParams = ['1994-09-25 00:00:00', 2];
-// //改
-// connection.query(modSql,modSqlParams,function (err, result) {
-//    if(err){
-//          console.log('[UPDATE ERROR] - ',err.message);
-//          return;
-//    }        
-//   console.log('--------------------------UPDATE----------------------------');
-//   console.log('UPDATE affectedRows',result.affectedRows);
-//   console.log('-----------------------------------------------------------------\n\n');
-// });
+function insertUser(user) {
+    return new Promise((resolve, reject) =>{
+        let sql = 'INSERT INTO user (name, birthday) VALUES(?,?)';
+        let params = [user.name, user.birthday]
+        connection.query(sql, params, function (err, result) {
+            if(err){
+                reject(err)
+            } else {
+                resolve(result.insertIds)
+            } 
+        })
+    });
+}
 
 function quit(params) {
     connection.end()
@@ -70,4 +75,5 @@ function quit(params) {
 
 module.exports.getUser = getUser
 module.exports.updateUser = updateUser
+module.exports.insertUser = insertUser
 module.exports.quit = quit
