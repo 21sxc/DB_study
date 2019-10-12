@@ -14,7 +14,7 @@ connection.connect()
  */
 function getUser(uid, callback) {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM user WHERE uid = ?';
+        const sql = 'SELECT uid, name, birthday FROM user WHERE uid = ?';
         const params = [uid]
         connection.query(sql, params, function (err, result) {
             if (err) {
@@ -26,7 +26,20 @@ function getUser(uid, callback) {
     })
 }
 
-function updateUser(uid, params, callback) {
+function getUsers(limNum) {
+    return new Promise((resolve, reject) =>{
+        const sql = `SELECT * FROM user LIMIT ` + limNum
+        connection.query(sql,function (err, result) {
+            if(err){
+              reject(err)
+            } else {
+                resolve(result)
+            }
+        })
+    })
+}
+
+function updateUser(uid, params) {
     return new Promise((resolve, reject) => {
         let sql = 'UPDATE user SET ';
         let data = []
@@ -74,6 +87,7 @@ function quit(params) {
 
 
 module.exports.getUser = getUser
+module.exports.getUsers = getUsers
 module.exports.updateUser = updateUser
 module.exports.insertUser = insertUser
 module.exports.quit = quit

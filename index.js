@@ -9,6 +9,16 @@ async function testDbFunc() {
         console.log('[QUERY ERROR] - ', err.message);
     }
 
+    let limNum = 7
+    try {
+        let users = await dbHelper.getUsers(limNum)
+        for (const user of users) {
+            console.log(`my name is ${user.name} and my birthday is ${user.birthday.toISOString()}`)  
+        }
+    } catch (err) {
+        console.log('发生错误')
+    }
+
     let params = {
         name: '我是天才',
         birthday: '2000-1-1 00:00:00',
