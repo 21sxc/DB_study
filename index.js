@@ -1,7 +1,6 @@
 const dbHelper = require('./db_helper')
 
 async function testDbFunc() {
-    let uid = 2
     try {
         let user = await dbHelper.getUser(uid)
         console.log(`my name is ${user.name} and my birthday is ${user.birthday.toISOString()}`)
@@ -9,7 +8,6 @@ async function testDbFunc() {
         console.log('[QUERY ERROR] - ', err.message);
     }
 
-    let limNum = 7
     try {
         let users = await dbHelper.getUsers(limNum)
         for (const user of users) {
@@ -37,6 +35,17 @@ async function testDbFunc() {
     }
     try {
         let add = await dbHelper.insertUser(newUesr)
+        console.log('添加成功')
+    } catch (err) {
+        console.log('发生错误')
+    }
+
+    let proUser = {
+        name: 'xxxxx',
+        birthday: '2001-1-1 00:00:00',
+    }
+    try {
+        let add = await dbHelper.insertUser(proUser)
         console.log('添加成功')
     } catch (err) {
         console.log('发生错误')

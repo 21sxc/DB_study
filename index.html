@@ -47,9 +47,19 @@
             text-align: center;
             margin: 5px auto;
         }
+        .firstTable{
+            text-align: center;
+            margin: 0px 45%;
+            width: 100%;
+        }
+        .main{
+            width: 600px;
+            margin: 0px auto;
+        }
     </style>
 </head>
 <body>
+    <div class = "main">
     <div class="page">
         这是一张表
     </div>
@@ -67,12 +77,20 @@
             </div>
     </div>
 
-    <table border="1" id='tr-users'>
-        <tr>
-            <th>uid</th>
-            <th>姓名</th>
-        </tr>
-    </table>
+    <div class = "firstTable">
+        <table border="1" id="tr-users">
+                <thead>
+                    <tr>
+                            <th>uid</th>
+                            <th>姓名</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+        </table>
+    </div>
+</div>
+   
     
     <script>
         $('#btn').click(function() {
@@ -103,7 +121,7 @@
                     $('#tr-users tbody').empty()
                     for (const user of result) {
                         let netTr = $(`
-                            <tr>
+                            <tr>                             
                                 <td>${user.uid}</td>
                                 <td>${user.name}</td>
                             </tr>

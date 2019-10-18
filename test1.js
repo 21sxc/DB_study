@@ -5,3 +5,13 @@ if (uid) {
 } else {
    console.log('no')
 }
+
+
+const charList = {
+   "a": 1,
+   "b": 2,
+   "c": 3,
+}
+
+
+

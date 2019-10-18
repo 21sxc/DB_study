@@ -37,7 +37,7 @@ async function route(pathname, response) {
     } else if (pathname.startsWith('/users')) {
         console.log('sdadsa')
         response.writeHead(200, {'Content-Type':'application/json; charset=UTF-8'})
-        const users = await dbHelper.getUsers(5)
+        const users = await dbHelper.getUsers(10)
         if (users) {
             response.end(JSON.stringify(users))
         } else {
