@@ -63,6 +63,11 @@
     <div class="page">
         这是一张表
     </div>
+    姓名<input type="text" id = "input-name">
+    生日<input type="text" id = "input-birthday">
+    <div class="button" id="btn-submit">
+            提交
+    </div>
     <ul class="user">
         <li>姓名：<span id="user-name"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;生日：<span id="user-birthday"></span></li>
     </ul>
@@ -93,6 +98,27 @@
    
     
     <script>
+        $('#btn-submit').click(function() {
+            let userName =  document.getElementById("input-name").value
+            let userBirthday =  document.getElementById("input-birthday").value
+            let userInfo = {userName, userBirthday}
+            if (userName.length <= 0 || userBirthday.length <= 0) {
+                alert('请填写完整！')
+                return
+            }
+            $.ajax({
+                url:"/data",
+                type: "POST",//请求方式
+                data: userInfo,
+                dataType: "json",//响应类型
+				success:function(data){
+					alert("发送成功");
+				},
+				error:function(e){
+                    alert("发送失败");
+                }
+            });
+        })
         $('#btn').click(function() {
             let uid =  document.getElementById("input-uid").value
             if (uid.length <= 0 ) {

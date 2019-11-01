@@ -21,6 +21,19 @@ async function route(pathname, response) {
             //发送响应数据"Hello World"
             response.end(data)
         })
+    } else if (pathname.startsWith('/data')) {
+        const userInfo = parseInt(pathname.substring(5))
+        if (userInfo <= 0) {
+            response.end('userData 不合法')
+            return
+        }
+        response.writeHead(200, {'Content-Type':'application/json; charset=UTF-8'})
+        const userAdd = await dbHelper.insertUser(userInfo)
+        if (userAdd) {
+            response.end('添加成功')
+        } else {
+            response.end('添加失败')
+        }
     } else if (pathname.startsWith('/user/')) {
         const uid = parseInt(pathname.substring(6))
         if (uid <= 0) {
@@ -35,7 +48,7 @@ async function route(pathname, response) {
             response.end(JSON.stringify({}))
         }
     } else if (pathname.startsWith('/users')) {
-        console.log('sdadsa')
+        console.log('发生请求')
         response.writeHead(200, {'Content-Type':'application/json; charset=UTF-8'})
         const users = await dbHelper.getUsers(10)
         if (users) {
