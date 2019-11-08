@@ -123,3 +123,127 @@ var nowStr = now.format("yyyy-MM-dd hh:mm:ss");
 document.getElementById("demo2").innerHTML=new Date().format("yyyy年MM月dd日");
 var nowStr = now.format("yyyy-MM-dd hh:mm:ss");
 document.getElementById("demo3").innerHTML=new Date().format("yyyy年MM月dd日hh小时mm分ss秒");
+
+Array.prototype.myUcase = function () {
+    for (i = 0; i < this.length; i++) {
+        this[i]=this[i].toUpperCase();
+    }
+}
+function myFunction() {
+    var fruits = ["banana", "apple", "Orange", "Mango"];
+    fruits.myUcase();
+    var x = document.getElementById("demo");
+    x.innerHTML = fruits;
+}//创建一个数组，调用ucase()方法，并显示结果
+
+function randBool(percent = 0.5) {
+    if(Math.random() < percent) 
+        return true;
+        else
+        return false;
+}
+
+function randChar(length, characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789") {
+    //length可自己输入指定长度
+    characters = characters.split("");
+    result = "";
+    while(result.length < length) result += characters[Math.round(Math.random()*characters.length) - 1]
+    return result;
+}
+
+function randCharAnother(length,rangeMin=0x80,rangeMax=0x7FF){
+    //length长度，rangeMin为最小Unicode码，rangeMax为最大Unicode码。
+    result="";
+    while(result.length<length) result+=String.fromCharCode(Math.round(Math.random()*(rangeMax-rangeMin)) + rangeMin);
+    return result;
+}
+
+Array.prototype.pick = function () {
+    //不能为 ()=>{/*函数*/}，否则this会指向Window。
+    return [(this.length?Math.round(Math.random()*(this.length-1)):undefined)];//如果长度为0，返回undefined
+}
+
+var num = 123;
+window.str = "string";
+delete num;
+delete str;
+console.log(num); //123
+
+console.log(str);//str is not defined
+//全局变量不能通过delete删除，因为通过var定义全局变量会有一个名为[Configurable]的属性，默认值为false,所以这样定义的属性不可以通过delete删除。
+
+var newValue = oldValue; //报错：oldValue is not defined
+var newValue = window.oldValue;//不会报错
+console.log(newValue);//undefined
+
+function a() {
+    history.go(1)
+}//跳转页面前进
+
+function b() {
+    history.go(-1)
+}//跳转页面返回上一页
+
+function c() {
+    history.go(0)
+}//刷新页面
+
+function myFunction() {
+    var x;
+    var r = confirm("按下按钮");
+    if (r == true) {
+        x = "你按下了\"确定\"按钮!";
+    } else {
+        x = "你按下了\"取消\"按钮!";
+    }
+}
+
+function myFunction() {
+    var x;
+    var person = prompt("请输入你的名字", "sxc");
+    if (person != null && person != "") {
+        x = "hello" + person + "!今天感觉如何?";
+        document.getElementById("demo").innerHTML = x;
+    }
+}
+
+var myVar = setInterval(function () {myTimer()}, 1000);
+function  myTimer() {
+    var d = new Date();
+    var t = d.toLocaleDateString();
+    document.getElementById("demo").innerHTML = t;
+}//当前时间，每秒更新一次
+
+function myStopFunction() {
+    clearInterval(myVar);
+}//停止计时
+
+function myFunction() {
+    setTimeout(function () {alert("hello")}, 3000)
+}//三秒后弹出弹窗
+function myStopFunction() {
+    clearTimeout()
+}//去除定时器
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        var c = ca[i].trim();
+        if (c.indexOf(name) == 0) { return c.substring(name.length, c.length);}
+    }
+    return "";
+}
+function checkCookie() {
+    var user = getCookie("username");
+    if (user != "") {
+        alert("welcome" + user + "再次访问");
+    }
+    else {
+        user = prompt("请输入你的名字:", "");
+        if (user != "" && user != null) {
+            setCookie("username", user, 30)
+        }
+    }
+}
+
